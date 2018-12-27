@@ -1,0 +1,31 @@
+
+<!-- <button type="button" (click)="myFunc()" >Click Me!</button> -->
+
+<form novalidate #f="ngForm" (ngSubmit)="deleteNode(f)">
+
+  <div class="form-group">
+      <label for="">Child:</label>
+      <input type="text" class="form-control" placeholder="Child" name="childToDelete" [(ngModel)]="childToDelete" #childToDelete1="ngModel"/>
+  </div>
+
+  <div class="form-group">
+      <button class="btn btn-default" [disabled]="!f.valid">Delete node</button>
+  </div>
+
+</form>
+
+
+<svg #svgRef class="chart" width="1000" height="1000"> 
+  <defs>
+  <marker
+    id="arrow"
+    markerUnits="strokeWidth"
+    markerWidth="12"
+    markerHeight="12"
+    viewBox="0 0 12 12"
+    refX="6"
+    refY="6"
+    orient="auto">
+    <path d="M2,2 L10,6 L2,10 L6,6 L2,2" style="fill: blue;"></path>
+  </marker>
+</defs></svg>

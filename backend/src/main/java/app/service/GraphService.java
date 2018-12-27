@@ -1,5 +1,6 @@
 package app.service;
 
+import app.exception.WrongGraphStructureException;
 import app.objects.Graph;
 import org.springframework.stereotype.Service;
 
@@ -10,9 +11,17 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 public class GraphService {
+    private static final AtomicReference<Graph> CACHE = new AtomicReference<>();
+
+    public Graph getCurrentGraph() {
+        CACHE.compareAndSet(null, buildGraph("graphExample.txt"));
+        return CACHE.get();
+    }
+
     public Graph buildGraph(String fileName) {
         Graph graph = null;
         if (!fileName.contains(".txt")) {
@@ -66,12 +75,14 @@ public class GraphService {
         lines.add(String.valueOf(graph.numberOfNodes));
         for (int i = 1; i < graph.nodes.size() + 1; i++) {
             ArrayList<Integer> neighboursList = graph.nodes.get(i);
-            String neighboursAsString = "";
-            for (Integer neighbour : neighboursList) {
-                neighboursAsString += String.valueOf(neighbour) + " ";
+            if (neighboursList != null) {
+                String neighboursAsString = "";
+                for (Integer neighbour : neighboursList) {
+                    neighboursAsString += String.valueOf(neighbour) + " ";
+                }
+                String line = i + " " + graph.nodes.get(i).size() + " " + neighboursAsString;
+                lines.add(line);
             }
-            String line = i + " " + graph.nodes.get(i).size() + " " + neighboursAsString;
-            lines.add(line);
         }
         return lines;
     }
@@ -82,5 +93,42 @@ public class GraphService {
 
         new PrintWriter(fileName, "UTF-8");
         return fileName;
+    }
+
+    public void removeNode(int nodeId) throws WrongGraphStructureException, IOException {
+        try {
+            CACHE.getAndUpdate((graph) -> {
+                if (graph == null) {
+                    graph = buildGraph("graphExample.txt");
+                }
+                Graph ret = new Graph();
+                ret.nodes = new HashMap<>();
+                ret.numberOfNodes = graph.numberOfNodes - 1;
+                graph.nodes.forEach((k, v) -> {
+                    ArrayList<Integer> retValues = new ArrayList<Integer>(v);
+                    ret.nodes.put(k, retValues);
+                    retValues.remove(Integer.valueOf(nodeId));
+                });
+                ret.nodes.forEach((k, v) -> {
+                    v.remove(Integer.valueOf(nodeId));
+                });
+                ArrayList<Integer> toReomve = ret.nodes.remove(nodeId);
+                if (toReomve != null && !toReomve.isEmpty()) {
+                    throw new IllegalStateException("not_valid_tree");
+                }
+                try {
+                    this.saveGraph(ret);
+                } catch (IOException e) {
+                    throw new IllegalStateException("io_exception");
+                }
+                return ret;
+            });
+        } catch (IllegalStateException ex) {
+            if ("not_valid_tree".equals(ex.getMessage())) {
+                throw new WrongGraphStructureException();
+            } else if ("io_exception".equals(ex.getMessage())) {
+                throw new IOException(ex);
+            }
+        }
     }
 }
