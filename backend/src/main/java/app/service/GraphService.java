@@ -135,7 +135,7 @@ public class GraphService {
         }
     }
 
-    public void removeEdge(Edge edge) throws WrongGraphStructureException{
+    public void removeEdge(Edge edge) throws WrongGraphStructureException {
         try {
             CACHE.getAndUpdate((graph) -> {
                 AtomicBoolean canBeRemoved = new AtomicBoolean(false);
@@ -151,13 +151,27 @@ public class GraphService {
                 if (canBeRemoved.get()) {
                     graph.nodes.get(edge.from).remove(edge.to);
                 }
-                if (!canBeRemoved.get()){
+                if (!canBeRemoved.get()) {
                     throw new IllegalStateException();
                 }
                 return graph;
             });
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new WrongGraphStructureException();
         }
+    }
+
+    public void addNode(Integer sourceNode) {
+        CACHE.getAndUpdate((graph) -> {
+
+            if (graph == null) {
+                graph = buildGraph(graphExampleFilename);
+            }
+            graph.numberOfNodes += 1;
+            graph.nodes.get(sourceNode).add(graph.numberOfNodes);
+            ArrayList<Integer> nodeList = new ArrayList<>();
+            graph.nodes.put(graph.numberOfNodes, nodeList);
+            return graph;
+        });
     }
 }

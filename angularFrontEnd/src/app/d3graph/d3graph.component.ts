@@ -15,29 +15,30 @@ export class D3graphComponent implements OnInit, OnDestroy {
   childToDelete: string;
   firstNode: string;
   secondNode: string;
+  sourceNode: string;
   private d3: D3;
   private parentNativeElement: any;
   private svg: any;
 
   private graph;
-  initalGraphSubscription: Subscription;
+  initialGraphSubscription: Subscription;
   private showAlert: boolean;
 
 
-  constructor(element: ElementRef, private d3Service: D3Service, private graphServiceService: GraphService) {
+  constructor(element: ElementRef, private d3Service: D3Service, private graphService: GraphService) {
     this.d3 = d3Service.getD3();
     this.parentNativeElement = element.nativeElement;
   }
 
   ngOnInit() {
-    this.initalGraphSubscription = this.graphServiceService.getInitialGraph().subscribe(initGraph => {
+    this.initialGraphSubscription = this.graphService.getInitialGraph().subscribe(initGraph => {
       this.graph = initGraph;
       this.drawTree(this.graph);
     });
   }
 
   ngOnDestroy() {
-    this.initalGraphSubscription.unsubscribe();
+    this.initialGraphSubscription.unsubscribe();
   }
 
   drawTree(nodesMatrix: any) {
@@ -278,7 +279,7 @@ export class D3graphComponent implements OnInit, OnDestroy {
   deleteNode({form, value, valid}) {
     this.showAlert = false;
 
-    this.graphServiceService.removeNode(value.childToDelete).subscribe((currentGraph) => {
+    this.graphService.removeNode(value.childToDelete).subscribe((currentGraph) => {
       this.svg.remove();
       this.graph = currentGraph;
       this.drawTree(this.graph);
@@ -288,12 +289,21 @@ export class D3graphComponent implements OnInit, OnDestroy {
   deleteEdge(firstNode: string, secondNode: string) {
     this.showAlert = false;
     let nodes = {from: Number(firstNode), to: Number(secondNode)};
-    this.graphServiceService.removeEdge(nodes).subscribe((graph) => {
+    this.graphService.removeEdge(nodes).subscribe((graph) => {
       this.svg.remove();
       this.graph = graph;
       this.drawTree(this.graph);
     },
     () => {this.showAlert = true;}
     )
+  }
+
+  addNode(sourceNode: string){
+    let node = {from: Number(sourceNode)};
+    this.graphService.addNode(node).subscribe( (graph) => {
+      this.svg.remove();
+      this.graph = graph;
+      this.drawTree(this.graph);
+    });
   }
 }

@@ -25,4 +25,8 @@ export class GraphService {
   removeEdge(nodes: Object) {
     return this.http.post(`http://localhost:8090/graph/edge`, nodes).pipe(mergeMap(() => this.getInitialGraph()));
   }
+
+  addNode(sourceNode: Object) {
+    return this.http.post(`http://localhost:8090/graph/node`, sourceNode).pipe(mergeMap(() => this.getInitialGraph()));
+  }
 }

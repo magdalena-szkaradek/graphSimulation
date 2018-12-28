@@ -5,7 +5,7 @@
 
 <form #f="ngForm" (ngSubmit)="deleteNode(f)">
   <div class="form-group">
-      <label for="">Node to be removed: </label>
+      <label>Node to be removed: </label>
       <input type="text" class="form-control" placeholder="Node number" name="childToDelete" [(ngModel)]="childToDelete" #childToDelete1="ngModel" required/>
    <button type="button" class="btn btn-primary" [disabled]="!f.valid">Delete node</button>
   </div>
@@ -13,10 +13,18 @@
 <br>
 <form #deleteEdgeForm="ngForm">
   <div class="form-group">
-    <label for="">Edge to be removed: </label>
+    <label>Edge to be removed: </label>
     <input type="text" class="form-control" placeholder="From node: " name="firstNode" [(ngModel)]="firstNode" #firstNodeRef="ngModel" required/>
     <input type="text" class="form-control" placeholder="To node: " name="secondNode" [(ngModel)]="secondNode" #secondNodeRef="ngModel" style="margin-left: 1%;" required/>
     <button type="button" class="btn btn-primary" [disabled]="!deleteEdgeForm.valid" (click)="deleteEdge(firstNode, secondNode)">Delete edge</button>
+  </div>
+</form>
+<br>
+<form #addNodeForm="ngForm">
+  <div class="form-group">
+    <label>Add node: </label>
+    <input type="text" class="form-control" placeholder="Source node: " name="sourceNode" [(ngModel)]="sourceNode" #sourceNodeRef="ngModel" required/>
+    <button type="button" class="btn btn-primary" [disabled]="!addNodeForm.valid" (click)="addNode(sourceNode)">Add node</button>
   </div>
 </form>
 

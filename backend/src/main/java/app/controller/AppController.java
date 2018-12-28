@@ -54,4 +54,10 @@ public class AppController {
         graphService.removeEdge(edge);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("node")
+    public ResponseEntity addNode(@RequestBody Edge edge) {
+        graphService.addNode(edge.from);
+        return ResponseEntity.ok().build();
+    }
 }
