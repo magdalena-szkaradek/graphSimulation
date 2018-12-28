@@ -23,10 +23,14 @@ export class GraphService {
   }
 
   removeEdge(nodes: Object) {
-    return this.http.post(`http://localhost:8090/graph/edge`, nodes).pipe(mergeMap(() => this.getInitialGraph()));
+    return this.http.post(`http://localhost:8090/graph/edge/remove`, nodes).pipe(mergeMap(() => this.getInitialGraph()));
   }
 
   addNode(sourceNode: Object) {
-    return this.http.post(`http://localhost:8090/graph/node`, sourceNode).pipe(mergeMap(() => this.getInitialGraph()));
+    return this.http.post(`http://localhost:8090/graph/node/add`, sourceNode).pipe(mergeMap(() => this.getInitialGraph()));
+  }
+
+  addEdge(nodes: Object) {
+    return this.http.post(`http://localhost:8090/graph/edge/add`, nodes).pipe(mergeMap(() => this.getInitialGraph()));
   }
 }

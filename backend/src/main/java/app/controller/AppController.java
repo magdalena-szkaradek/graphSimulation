@@ -49,15 +49,21 @@ public class AppController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("edge")
+    @PostMapping("edge/remove")
     public ResponseEntity removeEdge(@RequestBody Edge edge) throws WrongGraphStructureException {
         graphService.removeEdge(edge);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("node")
+    @PostMapping("node/add")
     public ResponseEntity addNode(@RequestBody Edge edge) {
         graphService.addNode(edge.from);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("edge/add")
+    public ResponseEntity addEdge(@RequestBody Edge edge) {
+        graphService.addEdge(edge);
         return ResponseEntity.ok().build();
     }
 }

@@ -174,4 +174,18 @@ public class GraphService {
             return graph;
         });
     }
+
+    public void addEdge(Edge edge) {
+        CACHE.getAndUpdate((graph) -> {
+
+            if (graph == null) {
+                graph = buildGraph(graphExampleFilename);
+            }
+
+            if(!graph.nodes.get(edge.from).contains(edge.to)){
+                graph.nodes.get(edge.from).add(edge.to);
+            }
+            return graph;
+        });
+    }
 }

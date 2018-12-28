@@ -16,6 +16,8 @@ export class D3graphComponent implements OnInit, OnDestroy {
   firstNode: string;
   secondNode: string;
   sourceNode: string;
+  sourceNodeForEdge: string;
+  destinationNodeForEdge: string;
   private d3: D3;
   private parentNativeElement: any;
   private svg: any;
@@ -301,6 +303,15 @@ export class D3graphComponent implements OnInit, OnDestroy {
   addNode(sourceNode: string){
     let node = {from: Number(sourceNode)};
     this.graphService.addNode(node).subscribe( (graph) => {
+      this.svg.remove();
+      this.graph = graph;
+      this.drawTree(this.graph);
+    });
+  }
+
+  addEdge(sourceNode: string, destinationNode: string) {
+    let nodes = {from: Number(sourceNode), to: Number(destinationNode)};
+    this.graphService.addEdge(nodes).subscribe( (graph) => {
       this.svg.remove();
       this.graph = graph;
       this.drawTree(this.graph);

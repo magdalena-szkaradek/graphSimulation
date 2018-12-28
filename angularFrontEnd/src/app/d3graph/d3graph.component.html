@@ -5,7 +5,7 @@
 
 <form #f="ngForm" (ngSubmit)="deleteNode(f)">
   <div class="form-group">
-      <label>Node to be removed: </label>
+      <label>Remove node: </label>
       <input type="text" class="form-control" placeholder="Node number" name="childToDelete" [(ngModel)]="childToDelete" #childToDelete1="ngModel" required/>
    <button type="button" class="btn btn-primary" [disabled]="!f.valid">Delete node</button>
   </div>
@@ -13,9 +13,9 @@
 <br>
 <form #deleteEdgeForm="ngForm">
   <div class="form-group">
-    <label>Edge to be removed: </label>
-    <input type="text" class="form-control" placeholder="From node: " name="firstNode" [(ngModel)]="firstNode" #firstNodeRef="ngModel" required/>
-    <input type="text" class="form-control" placeholder="To node: " name="secondNode" [(ngModel)]="secondNode" #secondNodeRef="ngModel" style="margin-left: 1%;" required/>
+    <label>Remove edge: </label>
+    <input type="text" class="form-control" placeholder="Source node  name="firstNode" [(ngModel)]="firstNode" #firstNodeRef="ngModel" required/>
+    <input type="text" class="form-control" placeholder="Destination node" name="secondNode" [(ngModel)]="secondNode" #secondNodeRef="ngModel" style="margin-left: 1%;" required/>
     <button type="button" class="btn btn-primary" [disabled]="!deleteEdgeForm.valid" (click)="deleteEdge(firstNode, secondNode)">Delete edge</button>
   </div>
 </form>
@@ -23,11 +23,19 @@
 <form #addNodeForm="ngForm">
   <div class="form-group">
     <label>Add node: </label>
-    <input type="text" class="form-control" placeholder="Source node: " name="sourceNode" [(ngModel)]="sourceNode" #sourceNodeRef="ngModel" required/>
+    <input type="text" class="form-control" placeholder="Source node" name="sourceNode" [(ngModel)]="sourceNode" #sourceNodeRef="ngModel" required/>
     <button type="button" class="btn btn-primary" [disabled]="!addNodeForm.valid" (click)="addNode(sourceNode)">Add node</button>
   </div>
 </form>
-
+<br>
+<form #addEdgeForm="ngForm">
+  <div class="form-group">
+    <label>Add edge: </label>
+    <input type="text" class="form-control" placeholder="Source node" name="sourceNodeForEdge" [(ngModel)]="sourceNodeForEdge" #sourceNodeForEdgeRef="ngModel" required/>
+    <input type="text" class="form-control" placeholder="Destination node" name="destinationNodeForEdge" [(ngModel)]="destinationNodeForEdge" #destinationNodeForEdgeRef="ngModel" style="margin-left: 1%;" required/>
+    <button type="button" class="btn btn-primary" [disabled]="!addEdgeForm.valid" (click)="addEdge(sourceNodeForEdge, destinationNodeForEdge)">Add edge</button>
+  </div>
+</form>
 
 <svg #svgRef class="chart" width="1000" height="1000"> 
   <defs>
