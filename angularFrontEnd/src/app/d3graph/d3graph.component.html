@@ -1,17 +1,23 @@
+<div *ngIf="showAlert" class="alert">
+  <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+  This action is not allowed.
+</div>
 
-<!-- <button type="button" (click)="myFunc()" >Click Me!</button> -->
-
-<form novalidate #f="ngForm" (ngSubmit)="deleteNode(f)">
-
+<form #f="ngForm" (ngSubmit)="deleteNode(f)">
   <div class="form-group">
-      <label for="">Child:</label>
-      <input type="text" class="form-control" placeholder="Child" name="childToDelete" [(ngModel)]="childToDelete" #childToDelete1="ngModel"/>
+      <label for="">Node to be removed: </label>
+      <input type="text" class="form-control" placeholder="Node number" name="childToDelete" [(ngModel)]="childToDelete" #childToDelete1="ngModel" required/>
+   <button type="button" class="btn btn-primary" [disabled]="!f.valid">Delete node</button>
   </div>
-
+</form>
+<br>
+<form #deleteEdgeForm="ngForm">
   <div class="form-group">
-      <button class="btn btn-default" [disabled]="!f.valid">Delete node</button>
+    <label for="">Edge to be removed: </label>
+    <input type="text" class="form-control" placeholder="From node: " name="firstNode" [(ngModel)]="firstNode" #firstNodeRef="ngModel" required/>
+    <input type="text" class="form-control" placeholder="To node: " name="secondNode" [(ngModel)]="secondNode" #secondNodeRef="ngModel" style="margin-left: 1%;" required/>
+    <button type="button" class="btn btn-primary" [disabled]="!deleteEdgeForm.valid" (click)="deleteEdge(firstNode, secondNode)">Delete edge</button>
   </div>
-
 </form>
 
 

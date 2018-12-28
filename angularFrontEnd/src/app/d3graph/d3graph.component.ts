@@ -13,17 +13,31 @@ import {Subscription} from 'rxjs';
 export class D3graphComponent implements OnInit, OnDestroy {
   @ViewChild('svgRef', {read: ElementRef}) someComp;
   childToDelete: string;
+  firstNode: string;
+  secondNode: string;
   private d3: D3;
   private parentNativeElement: any;
   private svg: any;
 
-  private aaa;
+  private graph;
   initalGraphSubscription: Subscription;
+  private showAlert: boolean;
 
 
   constructor(element: ElementRef, private d3Service: D3Service, private graphServiceService: GraphService) {
     this.d3 = d3Service.getD3();
     this.parentNativeElement = element.nativeElement;
+  }
+
+  ngOnInit() {
+    this.initalGraphSubscription = this.graphServiceService.getInitialGraph().subscribe(initGraph => {
+      this.graph = initGraph;
+      this.drawTree(this.graph);
+    });
+  }
+
+  ngOnDestroy() {
+    this.initalGraphSubscription.unsubscribe();
   }
 
   drawTree(nodesMatrix: any) {
@@ -261,22 +275,25 @@ export class D3graphComponent implements OnInit, OnDestroy {
     }
   };
 
-  ngOnInit() {
-    this.initalGraphSubscription = this.graphServiceService.getInitialGraph().subscribe(initGraph => {
-      this.aaa = initGraph;
-      this.drawTree(this.aaa);
-    });
-  }
-
-  ngOnDestroy() {
-    this.initalGraphSubscription.unsubscribe();
-  }
-
   deleteNode({form, value, valid}) {
+    this.showAlert = false;
+
     this.graphServiceService.removeNode(value.childToDelete).subscribe((currentGraph) => {
       this.svg.remove();
-      this.aaa = currentGraph;
-      this.drawTree(this.aaa);
+      this.graph = currentGraph;
+      this.drawTree(this.graph);
     });
+  }
+
+  deleteEdge(firstNode: string, secondNode: string) {
+    this.showAlert = false;
+    let nodes = {from: Number(firstNode), to: Number(secondNode)};
+    this.graphServiceService.removeEdge(nodes).subscribe((graph) => {
+      this.svg.remove();
+      this.graph = graph;
+      this.drawTree(this.graph);
+    },
+    () => {this.showAlert = true;}
+    )
   }
 }

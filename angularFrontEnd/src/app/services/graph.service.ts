@@ -21,4 +21,8 @@ export class GraphService {
   saveGraph(id: number): Observable<string> {
     return this.http.delete(`http://localhost:8090/graph/saveGraph`).pipe(mergeMap(() => this.getInitialGraph()));  
   }
+
+  removeEdge(nodes: Object) {
+    return this.http.post(`http://localhost:8090/graph/edge`, nodes).pipe(mergeMap(() => this.getInitialGraph()));
+  }
 }

@@ -1,6 +1,7 @@
 package app.controller;
 
 import app.exception.WrongGraphStructureException;
+import app.objects.Edge;
 import app.objects.Graph;
 import app.service.GraphService;
 import org.slf4j.Logger;
@@ -10,9 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.*;
-import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Map;
 
 
 @RestController
@@ -46,8 +47,11 @@ public class AppController {
     public ResponseEntity saveGraph(@RequestBody Graph graph) throws IOException {
         graphService.saveGraph(graph);
         return ResponseEntity.ok().build();
-
     }
 
-
+    @PostMapping("edge")
+    public ResponseEntity removeEdge(@RequestBody Edge edge) throws WrongGraphStructureException {
+        graphService.removeEdge(edge);
+        return ResponseEntity.ok().build();
+    }
 }
