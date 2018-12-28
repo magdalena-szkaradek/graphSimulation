@@ -14,7 +14,7 @@
 <form #deleteEdgeForm="ngForm">
   <div class="form-group">
     <label>Remove edge: </label>
-    <input type="text" class="form-control" placeholder="Source node  name="firstNode" [(ngModel)]="firstNode" #firstNodeRef="ngModel" required/>
+    <input type="text" class="form-control" placeholder="Source node" name="firstNode" [(ngModel)]="firstNode" #firstNodeRef="ngModel" required/>
     <input type="text" class="form-control" placeholder="Destination node" name="secondNode" [(ngModel)]="secondNode" #secondNodeRef="ngModel" style="margin-left: 1%;" required/>
     <button type="button" class="btn btn-primary" [disabled]="!deleteEdgeForm.valid" (click)="deleteEdge(firstNode, secondNode)">Delete edge</button>
   </div>
