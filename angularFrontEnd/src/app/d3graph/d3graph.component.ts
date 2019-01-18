@@ -3,6 +3,7 @@ import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core
 import {D3, D3Service,} from 'd3-ng2-service';
 import {GraphService} from '../services/graph.service';
 import {Subscription} from 'rxjs';
+import {saveAs as importedSaveAs} from "file-saver";
 
 
 @Component({
@@ -317,4 +318,13 @@ export class D3graphComponent implements OnInit, OnDestroy {
       this.drawTree(this.graph);
     });
   }
+
+  getFile() {
+    this.graphService.getFile().subscribe(data => {
+      var blob = new Blob([data.blob()],{ type: 'text/plain' });
+      importedSaveAs(blob, "Graph");
+    });
+  }
+
+
 }

@@ -64,12 +64,14 @@ public class GraphService {
         return graph;
     }
 
-    public void saveGraph(Graph graph) throws IOException {
+    public File saveGraph(Graph graph) throws IOException {
         String fileName = createFile();
         List<String> lines = createContentToSave(graph);
 
         Path file = Paths.get(fileName);
         Files.write(file, lines, Charset.forName("UTF-8"));
+
+        return file.toFile();
     }
 
     private List<String> createContentToSave(Graph graph) {

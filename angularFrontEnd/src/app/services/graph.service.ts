@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { Http, Response} from '@angular/http';
-import { Observable } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {Http, ResponseContentType} from '@angular/http';
+import {Observable} from 'rxjs';
+import {map, mergeMap} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -32,5 +32,9 @@ export class GraphService {
 
   addEdge(nodes: Object) {
     return this.http.post(`http://localhost:8090/graph/edge/add`, nodes).pipe(mergeMap(() => this.getInitialGraph()));
+  }
+
+  getFile(){
+    return this.http.get(`http://localhost:8090/graph/download`, {responseType: ResponseContentType.Blob});
   }
 }
