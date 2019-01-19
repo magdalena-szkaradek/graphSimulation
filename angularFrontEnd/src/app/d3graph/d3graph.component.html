@@ -2,50 +2,59 @@
   <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
   This action is not allowed.
 </div>
+<h1>Graph editing</h1>
 
-<form #f="ngForm">
-  <div class="form-group">
-      <label>Remove node: </label>
-      <input type="text" class="form-control" placeholder="Node number" name="childToDelete" [(ngModel)]="childToDelete" #childToDelete1="ngModel" required/>
-   <button (click)="deleteNode(f)" type="button" class="btn btn-primary" [disabled]="!f.valid">Delete node</button>
-  </div>
-</form>
-<br>
-<form #deleteEdgeForm="ngForm">
-  <div class="form-group">
-    <label>Remove edge: </label>
-    <input type="text" class="form-control" placeholder="Source node" name="firstNode" [(ngModel)]="firstNode" #firstNodeRef="ngModel" required/>
-    <input type="text" class="form-control" placeholder="Destination node" name="secondNode" [(ngModel)]="secondNode" #secondNodeRef="ngModel" style="margin-left: 1%;" required/>
-    <button type="button" class="btn btn-primary" [disabled]="!deleteEdgeForm.valid" (click)="deleteEdge(firstNode, secondNode)">Delete edge</button>
-  </div>
-</form>
-<br>
-<form #addNodeForm="ngForm">
-  <div class="form-group">
-    <label>Add node: </label>
-    <input type="text" class="form-control" placeholder="Source node" name="sourceNode" [(ngModel)]="sourceNode" #sourceNodeRef="ngModel" required/>
-    <button type="button" class="btn btn-primary" [disabled]="!addNodeForm.valid" (click)="addNode(sourceNode)">Add node</button>
-  </div>
-</form>
-<br>
-<form #addEdgeForm="ngForm">
-  <div class="form-group">
-    <label>Add edge: </label>
-    <input type="text" class="form-control" placeholder="Source node" name="sourceNodeForEdge" [(ngModel)]="sourceNodeForEdge" #sourceNodeForEdgeRef="ngModel" required/>
-    <input type="text" class="form-control" placeholder="Destination node" name="destinationNodeForEdge" [(ngModel)]="destinationNodeForEdge" #destinationNodeForEdgeRef="ngModel" style="margin-left: 1%;" required/>
-    <button type="button" class="btn btn-primary" [disabled]="!addEdgeForm.valid" (click)="addEdge(sourceNodeForEdge, destinationNodeForEdge)">Add edge</button>
-  </div>
-</form>
-<br>
-<form #replaceNodeForm="ngForm">
-  <div class="form-group">
-    <label>Replace nodes: </label>
-    <input type="text" class="form-control" placeholder="First node" name="firstNodeForReplace" [(ngModel)]="firstNodeForReplace" #firstNodeForReplaceRef="ngModel" required/>
-    <input type="text" class="form-control" placeholder="Second node" name="secondNodeForReplace" [(ngModel)]="secondNodeForReplace" #secondNodeForReplaceRef="ngModel" style="margin-left: 1%;" required/>
-    <button type="button" class="btn btn-primary" [disabled]="!replaceNodeForm.valid" (click)="replaceNodes(firstNodeForReplace, secondNodeForReplace)">Replace</button>
-  </div>
-</form>
-<button style="font-size: 20px" (click)="getFile()">Save to file</button>
+<div class="row">
+    <div class="col-xs-6">
+        <h3>Editing nodes</h3>
+        <form #addNodeForm="ngForm">
+            <div class="form-group">
+              <label>Add node: </label>
+              <input type="text" class="form-control" placeholder="Source node" name="sourceNode" [(ngModel)]="sourceNode" #sourceNodeRef="ngModel" required/>
+              <button type="button" class="btn btn-primary" [disabled]="!addNodeForm.valid" (click)="addNode(sourceNode)">Add node</button>
+            </div>
+          </form>
+          <br>
+        <form #f="ngForm">
+            <div class="form-group">
+                <label>Remove node: </label> 
+                <input type="text" class="form-control" placeholder="Node number" name="childToDelete" [(ngModel)]="childToDelete" #childToDelete1="ngModel" required/>
+             <button (click)="deleteNode(f)" type="button" class="btn btn-primary" [disabled]="!f.valid">Delete node</button>
+            </div>
+          </form>
+          <br>
+          <form #replaceNodeForm="ngForm">
+              <div class="form-group">
+                <label>Replace nodes: </label>
+                <input type="text" class="form-control" placeholder="First node" name="firstNodeForReplace" [(ngModel)]="firstNodeForReplace" #firstNodeForReplaceRef="ngModel" required/>
+                <input type="text" class="form-control" placeholder="Second node" name="secondNodeForReplace" [(ngModel)]="secondNodeForReplace" #secondNodeForReplaceRef="ngModel" style="margin-left: 1%;" required/>
+                <button type="button" class="btn btn-primary" [disabled]="!replaceNodeForm.valid" (click)="replaceNodes(firstNodeForReplace, secondNodeForReplace)">Replace</button>
+              </div>
+            </form>
+    </div>
+    <div class="col-xs-6">
+        <form #addEdgeForm="ngForm">
+            <h3>Editing edges</h3>
+            <div class="form-group">
+              <label>Add edge: </label>
+              <input type="text" class="form-control" placeholder="Source node" name="sourceNodeForEdge" [(ngModel)]="sourceNodeForEdge" #sourceNodeForEdgeRef="ngModel" required/>
+              <input type="text" class="form-control" placeholder="Destination node" name="destinationNodeForEdge" [(ngModel)]="destinationNodeForEdge" #destinationNodeForEdgeRef="ngModel" style="margin-left: 1%;" required/>
+              <button type="button" class="btn btn-primary" [disabled]="!addEdgeForm.valid" (click)="addEdge(sourceNodeForEdge, destinationNodeForEdge)">Add edge</button>
+            </div>
+          </form>
+          <br>
+          <form #deleteEdgeForm="ngForm">
+              <div class="form-group">
+                <label>Remove edge: </label>
+                <input type="text" class="form-control" placeholder="Source node" name="firstNode" [(ngModel)]="firstNode" #firstNodeRef="ngModel" required/>
+                <input type="text" class="form-control" placeholder="Destination node" name="secondNode" [(ngModel)]="secondNode" #secondNodeRef="ngModel" style="margin-left: 1%;" required/>
+                <button type="button" class="btn btn-primary" [disabled]="!deleteEdgeForm.valid" (click)="deleteEdge(firstNode, secondNode)">Delete edge</button>
+              </div>
+            </form>
+            <br>
+            <button class="button" style="font-size: 15px" (click)="getFile()">Save graph to file</button>
+    </div>
+</div>
 
 <svg #svgRef class="chart" width="1000" height="1000"> 
   <defs>
