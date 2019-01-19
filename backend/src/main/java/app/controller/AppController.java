@@ -74,4 +74,10 @@ public class AppController {
     public FileSystemResource getFile() throws IOException {
         return new FileSystemResource(graphService.saveGraph(graphService.getCurrentGraph()));
     }
+
+    @PostMapping("replace")
+    public ResponseEntity replace(@RequestBody Edge edge) throws WrongGraphStructureException {
+        graphService.replaceNodes(edge);
+        return ResponseEntity.ok().build();
+    }
 }
