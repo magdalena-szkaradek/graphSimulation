@@ -23,3 +23,10 @@ hs_err_pid*
 
 .idea
 
+angularFrontEnd/package-lock.json
+angularFrontEnd/package.json
+graphSimulation.iml
+angularFrontEnd/package.json
+*.json
+*.txt
+angularFrontEnd/package.json
