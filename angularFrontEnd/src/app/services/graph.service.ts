@@ -37,4 +37,8 @@ export class GraphService {
   getFile(){
     return this.http.get(`http://localhost:8090/graph/download`, {responseType: ResponseContentType.Blob});
   }
+
+  replaceNodes(nodes: Object) {
+    return this.http.post(`http://localhost:8090/graph/replace`, nodes).pipe(mergeMap(() => this.getInitialGraph()));
+  }
 }

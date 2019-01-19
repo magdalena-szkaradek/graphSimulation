@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 @Service
 public class GraphService {
@@ -184,10 +185,43 @@ public class GraphService {
                 graph = buildGraph(graphExampleFilename);
             }
 
-            if(!graph.nodes.get(edge.from).contains(edge.to)){
+            if (!graph.nodes.get(edge.from).contains(edge.to)) {
                 graph.nodes.get(edge.from).add(edge.to);
             }
             return graph;
         });
+    }
+
+    public Graph replaceNodes(Edge edge) throws WrongGraphStructureException {
+        Graph graph = CACHE.get();
+
+        if (graph == null) {
+            graph = buildGraph(graphExampleFilename);
+        }
+
+        if (getParentPathNodes(edge.to, graph).contains(edge.from) || getParentPathNodes(edge.from, graph).contains(edge.to)) {
+            throw new WrongGraphStructureException();
+        }
+        CACHE.set(graph);
+        return graph;
+    }
+
+    private Set<Integer> getParentPathNodes(Integer id, Graph graph) {
+        Set<Integer> parentPathNodes = new HashSet<>();
+        List<Integer> currentNodes = Arrays.asList(id);
+        do {
+            parentPathNodes.addAll(currentNodes);
+            currentNodes = currentNodes.stream()
+                    .flatMap(node -> getParents(node, graph).stream())
+                    .collect(Collectors.toList());
+        } while (!parentPathNodes.contains(1));
+        return parentPathNodes;
+    }
+
+    private List<Integer> getParents(Integer id, Graph graph) {
+        return graph.nodes.entrySet().stream()
+                .filter(el -> el.getValue().contains(id))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
     }
 }

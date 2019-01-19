@@ -3,11 +3,11 @@
   This action is not allowed.
 </div>
 
-<form #f="ngForm" (ngSubmit)="deleteNode(f)">
+<form #f="ngForm">
   <div class="form-group">
       <label>Remove node: </label>
       <input type="text" class="form-control" placeholder="Node number" name="childToDelete" [(ngModel)]="childToDelete" #childToDelete1="ngModel" required/>
-   <button type="button" class="btn btn-primary" [disabled]="!f.valid">Delete node</button>
+   <button (click)="deleteNode(f)" type="button" class="btn btn-primary" [disabled]="!f.valid">Delete node</button>
   </div>
 </form>
 <br>
@@ -34,6 +34,15 @@
     <input type="text" class="form-control" placeholder="Source node" name="sourceNodeForEdge" [(ngModel)]="sourceNodeForEdge" #sourceNodeForEdgeRef="ngModel" required/>
     <input type="text" class="form-control" placeholder="Destination node" name="destinationNodeForEdge" [(ngModel)]="destinationNodeForEdge" #destinationNodeForEdgeRef="ngModel" style="margin-left: 1%;" required/>
     <button type="button" class="btn btn-primary" [disabled]="!addEdgeForm.valid" (click)="addEdge(sourceNodeForEdge, destinationNodeForEdge)">Add edge</button>
+  </div>
+</form>
+<br>
+<form #replaceNodeForm="ngForm">
+  <div class="form-group">
+    <label>Replace nodes: </label>
+    <input type="text" class="form-control" placeholder="First node" name="firstNodeForReplace" [(ngModel)]="firstNodeForReplace" #firstNodeForReplaceRef="ngModel" required/>
+    <input type="text" class="form-control" placeholder="Second node" name="secondNodeForReplace" [(ngModel)]="secondNodeForReplace" #secondNodeForReplaceRef="ngModel" style="margin-left: 1%;" required/>
+    <button type="button" class="btn btn-primary" [disabled]="!replaceNodeForm.valid" (click)="replaceNodes(firstNodeForReplace, secondNodeForReplace)">Replace</button>
   </div>
 </form>
 <button style="font-size: 20px" (click)="getFile()">Save to file</button>

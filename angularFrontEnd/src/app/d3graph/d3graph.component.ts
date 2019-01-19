@@ -26,6 +26,8 @@ export class D3graphComponent implements OnInit, OnDestroy {
   private graph;
   initialGraphSubscription: Subscription;
   private showAlert: boolean;
+  firstNodeForReplace: string;
+  secondNodeForReplace: string;
 
 
   constructor(element: ElementRef, private d3Service: D3Service, private graphService: GraphService) {
@@ -297,7 +299,7 @@ export class D3graphComponent implements OnInit, OnDestroy {
       this.graph = graph;
       this.drawTree(this.graph);
     },
-    () => {this.showAlert = true;}
+    () => this.showAlert = true
     )
   }
 
@@ -327,4 +329,14 @@ export class D3graphComponent implements OnInit, OnDestroy {
   }
 
 
+  replaceNodes(firstNodeForReplace: string, secondNodeForReplace: string) {
+    this.showAlert = false;
+    let nodes = {from: Number(firstNodeForReplace), to: Number(secondNodeForReplace)};
+    this.graphService.replaceNodes(nodes).subscribe( (graph) =>{
+      this.svg.remove();
+      this.graph = graph;
+      this.drawTree(this.graph);
+    },
+      () => this.showAlert = true)
+  }
 }
