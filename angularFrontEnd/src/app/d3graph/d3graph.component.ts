@@ -130,14 +130,14 @@ export class D3graphComponent implements OnInit, OnDestroy {
             console.log("*******************************Loop circuits: " + numberOfLoopCircuits)
             console.log("''''''''''''''''''''" + `"${fromParentX - 40}"`);
             if (countGrandChildren == 1) {
-              nodesWithCoordinates.set(childrenArray[0], `${fromParentX - 75 + numberOfLoopCircuits * 15},${fromParentY + 100}`);
+              nodesWithCoordinates.set(childrenArray[0], `${fromParentX - 60 + numberOfLoopCircuits * 15},${fromParentY + 100}`);
             } else if (countGrandChildren == 2) {
-              nodesWithCoordinates.set(childrenArray[0], `${fromParentX - 75 + numberOfLoopCircuits * 15},${fromParentY + 100}`);
-              nodesWithCoordinates.set(childrenArray[1], `${fromParentX + 75 - numberOfLoopCircuits * 15},${fromParentY + 100}`);
+              nodesWithCoordinates.set(childrenArray[0], `${fromParentX - 60 + numberOfLoopCircuits * 15},${fromParentY + 100}`);
+              nodesWithCoordinates.set(childrenArray[1], `${fromParentX + 60 - numberOfLoopCircuits * 15},${fromParentY + 100}`);
             } else if (countGrandChildren == 3) {
-              nodesWithCoordinates.set(childrenArray[0], `${fromParentX - 75 + numberOfLoopCircuits * 15},${fromParentY + 100}`);
+              nodesWithCoordinates.set(childrenArray[0], `${fromParentX - 60 + numberOfLoopCircuits * 15},${fromParentY + 100}`);
               nodesWithCoordinates.set(childrenArray[1], `${fromParentX},${fromParentY + 100}`);
-              nodesWithCoordinates.set(childrenArray[2], `${fromParentX + 75 - numberOfLoopCircuits * 15},${fromParentY + 100}`);
+              nodesWithCoordinates.set(childrenArray[2], `${fromParentX + 60 - numberOfLoopCircuits * 15},${fromParentY + 100}`);
             }
           }
 
@@ -152,7 +152,7 @@ export class D3graphComponent implements OnInit, OnDestroy {
         jsonCircles.push({
           "x_axis": splitted1[0],
           "y_axis": splitted1[1],
-          "radius": 20,
+          "radius": 12,
           "color": "green",
           "label": key
         });
@@ -227,9 +227,9 @@ export class D3graphComponent implements OnInit, OnDestroy {
             var xchild = parseInt(splittedChildCoordinates[0]);
             var line = svgContainer.append("line")
               .attr("x1", `${rootXCor}`)
-              .attr("y1", `${rootYCor - (-20)}`)
+              .attr("y1", `${rootYCor - (-12)}`)
               .attr("x2", `${xchild}`)
-              .attr("y2", `${ychild - 25}`)
+              .attr("y2", `${ychild - 17}`)
               .attr("stroke", "blue")
               .attr("stroke-width", 1.5)
               .attr("marker-end", "url(#arrow)");
@@ -268,9 +268,9 @@ export class D3graphComponent implements OnInit, OnDestroy {
                 var xchild = parseInt(splittedChildCoordinates[0]);
                 var line = svgContainer.append("line")
                   .attr("x1", `${rootXCor}`)
-                  .attr("y1", `${rootYCor - (-20)}`)
+                  .attr("y1", `${rootYCor - (-12)}`)
                   .attr("x2", `${xchild}`)
-                  .attr("y2", `${ychild - 25}`)
+                  .attr("y2", `${ychild - 17}`)
                   .attr("stroke", "blue")
                   .attr("stroke-width", 1.5)
                   .attr("marker-end", "url(#arrow)");
