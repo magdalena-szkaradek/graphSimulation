@@ -30,3 +30,4 @@ angularFrontEnd/package.json
 *.json
 *.txt
 angularFrontEnd/package.json
+backend/src/main/resources/graphExample.txt
