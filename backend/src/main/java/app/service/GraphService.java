@@ -201,8 +201,37 @@ public class GraphService {
 
         if (getParentPathNodes(edge.to, graph).contains(edge.from) || getParentPathNodes(edge.from, graph).contains(edge.to)) {
             throw new WrongGraphStructureException();
+        } else {
+            graph = replaceNode(edge, graph);
         }
         CACHE.set(graph);
+        return graph;
+    }
+
+    private Graph replaceNode(Edge edge, Graph graph) {
+        List<Map.Entry<Integer, ArrayList<Integer>>> parentsForFirstNode = graph.nodes.entrySet()
+                .stream()
+                .filter(element -> element.getValue().contains(edge.from))
+                .collect(Collectors.toList());
+
+        List<Map.Entry<Integer, ArrayList<Integer>>> parentsForSecondNode = graph.nodes.entrySet()
+                .stream()
+                .filter(element -> element.getValue().contains(edge.to))
+                .collect(Collectors.toList());
+
+
+        parentsForFirstNode.stream().forEach(
+                element -> {
+                    graph.nodes.get(element.getKey()).remove(edge.from);
+                    graph.nodes.get(element.getKey()).add(edge.to);
+                });
+
+        parentsForSecondNode.stream().forEach(
+                element -> {
+                    graph.nodes.get(element.getKey()).remove(edge.to);
+                    graph.nodes.get(element.getKey()).add(edge.from);
+                }
+        );
         return graph;
     }
 
