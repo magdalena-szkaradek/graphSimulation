@@ -290,7 +290,8 @@ export class D3graphComponent implements OnInit, OnDestroy {
       this.svg.remove();
       this.graph = currentGraph;
       this.drawTree(this.graph);
-    });
+    },
+      () => this.showAlert = true);
   }
 
   deleteEdge(firstNode: string, secondNode: string) {
